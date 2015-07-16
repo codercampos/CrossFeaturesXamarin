@@ -19,6 +19,15 @@ namespace CrossFeaturesXamarin.Droid.Controls
 {
     public class RoundedImageRenderer : ImageRenderer
     {
+        protected override void OnElementChanged(ElementChangedEventArgs<Image> e)
+        {
+            base.OnElementChanged(e);
+            if (e.OldElement == null)
+            {
+                if ((int)Android.OS.Build.VERSION.SdkInt < 18)
+                    SetLayerType(LayerType.Software, null);
+            }
+        }
         protected override bool DrawChild(Android.Graphics.Canvas canvas, Android.Views.View child, long drawingTime)
         {
             try
@@ -39,6 +48,7 @@ namespace CrossFeaturesXamarin.Droid.Controls
                 path.AddCircle(Width / 2, Height / 2, radius, Path.Direction.Ccw);
                 var paint = new Paint();
                 paint.AntiAlias = true;
+                //TODO look for a correct way to assign the BorderWidth depending of the screen dpi
                 paint.StrokeWidth = (float)element.BorderWidth;
                 paint.SetStyle(Paint.Style.Stroke);
                 paint.Color = element.BorderColor.ToAndroid();
