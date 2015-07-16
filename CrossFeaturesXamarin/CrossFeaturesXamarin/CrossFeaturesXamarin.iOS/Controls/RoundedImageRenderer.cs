@@ -2,10 +2,10 @@ using System;
 using CrossFeaturesXamarin.Controls;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
-[assembly: ExportRenderer(typeof(RoundedImage), typeof(CrossFeaturesXamarin.iOS.Controls.RoundedCircleRenderer))]
+[assembly: ExportRenderer(typeof(RoundedImage), typeof(CrossFeaturesXamarin.iOS.Controls.RoundedImageRenderer))]
 namespace CrossFeaturesXamarin.iOS.Controls
 {
-    public class RoundedCircleRenderer : ImageRenderer
+    public class RoundedImageRenderer : ImageRenderer
     {
         protected override void OnElementChanged(ElementChangedEventArgs<Image> e)
         {

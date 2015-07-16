@@ -7,6 +7,7 @@ using Xamarin.Forms;
 
 namespace CrossFeaturesXamarin
 {
+    //Made by Carlos Campos - @codercampos
     public class App : Application
     {
         public App()

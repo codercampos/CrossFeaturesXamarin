@@ -15,6 +15,7 @@ namespace CrossFeaturesXamarin.Pages
         ListView lstView;
         public UserListPage()
         {
+            BackgroundColor = Color.White;
             StackLayout layout = new StackLayout();
             layout.Padding = new Thickness(0, Device.OnPlatform(20, 0, 0), 0, 0);
             layout.HorizontalOptions = LayoutOptions.FillAndExpand;
