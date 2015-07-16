@@ -23,6 +23,7 @@ namespace CrossFeaturesXamarin.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+            Parse.ParseClient.Initialize("7F5X71CUQ3xbSpYgbs2Xk0dwVi6MBZrQLSKEZj9H", "qLWKCFAoHDusefHOhFRuQVS09h4HubIL4oTHtdgE");
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

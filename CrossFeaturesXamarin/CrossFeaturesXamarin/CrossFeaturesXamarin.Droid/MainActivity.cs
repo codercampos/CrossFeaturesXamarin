@@ -17,6 +17,7 @@ namespace CrossFeaturesXamarin.Droid
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
+            Parse.ParseClient.Initialize("7F5X71CUQ3xbSpYgbs2Xk0dwVi6MBZrQLSKEZj9H", "qLWKCFAoHDusefHOhFRuQVS09h4HubIL4oTHtdgE");
             LoadApplication(new App());
         }
     }
