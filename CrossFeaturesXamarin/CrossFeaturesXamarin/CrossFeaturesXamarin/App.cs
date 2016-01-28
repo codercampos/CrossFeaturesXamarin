@@ -13,7 +13,7 @@ namespace CrossFeaturesXamarin
         public App()
         {
             // The root page of your application
-            MainPage = new Pages.UserListPage();
+            MainPage = new NavigationPage(new Pages.UserListPage());
         }
 
         protected override void OnStart()

@@ -11,14 +11,15 @@ namespace CrossFeaturesXamarin.Pages.ViewCells
     {
         public UserViewCell()
         {
-            RoundedImage roundedImage = new RoundedImage
+            var roundedImage = new RoundedImage
             {
                 BorderColor = Color.Black,
                 Aspect = Aspect.AspectFill,
                 BorderWidth = 2.0,
             };
             roundedImage.SetBinding(Image.SourceProperty, "ProfilePicture");
-            Label lblName = new Label
+
+            var lblName = new Label
             {
                 TextColor = Color.FromHex("#A5A5A5"),
                 FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)),
@@ -26,7 +27,8 @@ namespace CrossFeaturesXamarin.Pages.ViewCells
                 YAlign = TextAlignment.Center
             };
             lblName.SetBinding(Label.TextProperty, "Name");
-            Label lblUsername = new Label
+
+            var lblUsername = new Label
             {
                 TextColor = Color.FromHex("#A5A5A5"),
                 FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)),
@@ -34,7 +36,8 @@ namespace CrossFeaturesXamarin.Pages.ViewCells
                 YAlign = TextAlignment.Center
             };
             lblUsername.SetBinding(Label.TextProperty, "Username");
-            StackLayout textLayout = new StackLayout
+
+            var textLayout = new StackLayout
             {
                 Orientation = StackOrientation.Vertical,
                 Spacing = 2,
@@ -43,30 +46,41 @@ namespace CrossFeaturesXamarin.Pages.ViewCells
             };
             textLayout.Children.Add(lblName);
             textLayout.Children.Add(lblUsername);
+
             #region Configure layout
-            RelativeLayout layout = new RelativeLayout
+            var layout = new RelativeLayout
             {
                 Padding = new Thickness(0, 2, 0, 2),
                 BackgroundColor = Color.White
             };
             layout.Children.Add(roundedImage,
-                Constraint.RelativeToParent((p) => p.Width * 0.03),
-                Constraint.RelativeToParent((p) => p.Width * 0.01),
-                Constraint.RelativeToParent((p) => p.Width * 0.15),
-                Constraint.RelativeToParent((p) => p.Width * 0.15));
+                Constraint.RelativeToParent(p => p.Width * 0.03),
+                Constraint.RelativeToParent(p => p.Width * 0.01),
+                Constraint.RelativeToParent(p => p.Width * 0.15),
+                Constraint.RelativeToParent(p => p.Width * 0.15));
             layout.Children.Add(textLayout,
                 Constraint.RelativeToView(roundedImage, (p, v) => v.X + v.Width + 15),
                 Constraint.RelativeToView(roundedImage, (p, v) => v.Y),
                 Constraint.RelativeToView(roundedImage, (p, v) => p.Width - v.X - v.Width - 20),
                 Constraint.RelativeToView(roundedImage, (p, v) => v.Height));
             #endregion
-            this.View = layout;
+
+            View = layout;
+
             var editMenu = new MenuItem() { Text = "Edit" };
-            editMenu.Clicked += (object sender, EventArgs e) =>
+            editMenu.Clicked += (sender, e) =>
             {
-                //TODO the action this will do
+                Application.Current.MainPage.DisplayAlert("Edit", "You want to edit this entry", "Ok");
             };
+
+            var deleteMenu = new MenuItem() { Text = "Delete", IsDestructive = true };
+            deleteMenu.Clicked += (sender, e) =>
+            {
+                Application.Current.MainPage.DisplayAlert("Deleted", "You delete this entry", "Ok");
+            };
+
             ContextActions.Add(editMenu);
+            ContextActions.Add(deleteMenu);
         }
     }
 }

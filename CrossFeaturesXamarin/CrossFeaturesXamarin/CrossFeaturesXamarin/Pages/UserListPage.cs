@@ -1,38 +1,45 @@
 ﻿using CrossFeaturesXamarin.Pages.ViewCells;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
+using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using System.Threading.Tasks;
+using CrossFeaturesXamarin.Models;
 using CrossFeaturesXamarin.Services;
 
 namespace CrossFeaturesXamarin.Pages
 {
     public class UserListPage : ContentPage
     {
-        ListView lstView;
+        private readonly ListView _lstView;
+        private readonly ObservableCollection<User> _collection;
         public UserListPage()
         {
+            Title = "Demo";
             BackgroundColor = Color.White;
-            StackLayout layout = new StackLayout();
-            layout.Padding = new Thickness(0, Device.OnPlatform(20, 0, 0), 0, 0);
-            layout.HorizontalOptions = LayoutOptions.FillAndExpand;
-            layout.VerticalOptions = LayoutOptions.FillAndExpand;
-            lstView = new ListView();
-            lstView.HasUnevenRows = true;
-            lstView.ItemTemplate = new DataTemplate(typeof(UserViewCell));
-            lstView.HeightRequest = 300;
-            lstView.VerticalOptions = LayoutOptions.FillAndExpand;
-            layout.Children.Add(lstView);
-            Content = layout;
-            //Retrieve data from server
-            Task.Factory.StartNew(() =>
+            _collection = new ObservableCollection<User>();
+
+            var layout = new StackLayout
             {
-                RetrieveData();
-            });
-            
+                Padding = new Thickness(0, Device.OnPlatform(20, 0, 0), 0, 0),
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                VerticalOptions = LayoutOptions.FillAndExpand
+            };
+
+            _lstView = new ListView
+            {
+                HasUnevenRows = true,
+                ItemTemplate = new DataTemplate(typeof (UserViewCell)),
+                ItemsSource = _collection,
+                HeightRequest = 300,
+                VerticalOptions = LayoutOptions.FillAndExpand
+            };
+            _lstView.ItemSelected += SelectedItem;
+
+            layout.Children.Add(_lstView);
+            Content = layout;
+
+            //Retrieve data from server
+            RetrieveData();
+
         }
 
         private async void RetrieveData()
@@ -40,7 +47,21 @@ namespace CrossFeaturesXamarin.Pages
             var parse = DependencyService.Get<IParseService>();
             var users = await parse.GetUsers();
             if (users != null)
-                Device.BeginInvokeOnMainThread(() => lstView.ItemsSource = users);
+                foreach (var item in users)
+                {
+                    _collection.Add(item);
+                    await Task.Delay(1000);
+                }
+        }
+
+        private void SelectedItem(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem == null) return;
+            var model = e.SelectedItem as User;
+            if (model == null) return;
+            var message = string.Format("You have selected {0} user", model.Name);
+            DisplayAlert("Selected", message, "Ok");
+            _lstView.SelectedItem = null;
         }
     }
 }
